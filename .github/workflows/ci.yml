@@ -25,10 +25,3 @@ jobs:
 
     - name: Build with Maven
       run: mvn clean verify --batch-mode
-
-    - name: Archive test reports
-      if: always()
-      uses: actions/upload-artifact@v3
-      with:
-        name: test-reports
-        path: target/surefire-reports/*.xml
