@@ -1,5 +1,4 @@
-# File: .github/workflows/ci.yml
-name: Java CI with Maven
+name: Build and Test
 
 on:
   push:
