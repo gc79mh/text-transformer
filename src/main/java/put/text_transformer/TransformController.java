@@ -1,6 +1,8 @@
 package put.text_transformer;
 
 import org.springframework.web.bind.annotation.*;
+import put.text_transformer.functions.*;
+
 
 @RestController
 @RequestMapping("/transform")
@@ -16,7 +18,7 @@ public class TransformController {
             return text.toUpperCase();
         }
         else if ("reverse".equalsIgnoreCase(action)) {
-            return new StringBuilder(text).reverse().toString();
+            return new ReverseFunction().apply(text);
         } else if ("capitalize".equalsIgnoreCase(action)) {
             String[] words = text.split(" ");
             StringBuilder capitalizedText = new StringBuilder();
@@ -28,6 +30,21 @@ public class TransformController {
             }
             return capitalizedText.toString().trim();
         }
+        else if ("number2words".equalsIgnoreCase(action)) {
+            return new NumberToWordsFunction().apply(text);
+        }
+        else if ("acronym".equalsIgnoreCase(action)) {
+            return new ConvertAcronymFunction().apply(text);
+        }
+        else if ("expand".equalsIgnoreCase(action)) {
+            return new ExpandAcronymFunction().apply(text);
+        } else if ("latex".equalsIgnoreCase(action)) {
+            return new LatexFunction().apply(text);
+        }
+        else if ("dedup".equalsIgnoreCase(action)) {
+            return new DeduplicateFunction().apply(text);
+        }
+
         return text;
     }
 }
