@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LatexFunction implements TextFunction {
+public class LatexDecorator extends TextFunctionDecorator {
 
     private static final Map<Pattern,String> ESCAPES = new LinkedHashMap<>();
     static {
@@ -19,16 +19,19 @@ public class LatexFunction implements TextFunction {
         ESCAPES.put(Pattern.compile("\\^"), "\\\\textasciicircum{}");
         ESCAPES.put(Pattern.compile("~"),   "\\\\textasciitilde{}");
         ESCAPES.put(Pattern.compile("`"), "\\\\textasciigrave{}");
-//        ESCAPES.put(Pattern.compile("\\\\"), "\\\\textbackslash{}"); //Probably will work with POST
+    }
 
+    public LatexDecorator(TextFunction textFunction) {
+        super(textFunction);
     }
 
     @Override
     public String apply(String text) {
-        if (text == null || text.isEmpty()) {
-            return text;
+        String input = wrappedFunction.apply(text);
+        if (input == null || input.isEmpty()) {
+            return input;
         }
-        String result = text;
+        String result = input;
         for (Map.Entry<Pattern,String> e : ESCAPES.entrySet()) {
             Matcher m = e.getKey().matcher(result);
             StringBuffer sb = new StringBuffer();

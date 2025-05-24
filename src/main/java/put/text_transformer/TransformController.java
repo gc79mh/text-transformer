@@ -3,7 +3,6 @@ package put.text_transformer;
 import org.springframework.web.bind.annotation.*;
 import put.text_transformer.functions.*;
 
-
 @RestController
 @RequestMapping("/transform")
 public class TransformController {
@@ -12,39 +11,62 @@ public class TransformController {
     public String transform(
             @RequestParam String text,
             @RequestParam String action) {
+
+        // Start with base component
+        TextFunction transformer = new BaseTextFunction();
+
         if ("lower".equalsIgnoreCase(action)) {
-            return text.toLowerCase();
+            transformer = new LowerCaseDecorator(transformer);
         } else if ("upper".equalsIgnoreCase(action)) {
-            return text.toUpperCase();
-        }
-        else if ("reverse".equalsIgnoreCase(action)) {
-            return new ReverseFunction().apply(text);
+            transformer = new UpperCaseDecorator(transformer);
+        } else if ("reverse".equalsIgnoreCase(action)) {
+            transformer = new ReverseDecorator(transformer);
         } else if ("capitalize".equalsIgnoreCase(action)) {
-            String[] words = text.split(" ");
-            StringBuilder capitalizedText = new StringBuilder();
-            for (String word : words) {
-                if (word.length() > 0) {
-                    capitalizedText.append(Character.toUpperCase(word.toLowerCase().charAt(0)))
-                            .append(word.toLowerCase().substring(1)).append(" ");
-                }
-            }
-            return capitalizedText.toString().trim();
-        }
-        else if ("number2words".equalsIgnoreCase(action)) {
-            return new NumberToWordsFunction().apply(text);
-        }
-        else if ("acronym".equalsIgnoreCase(action)) {
-            return new ConvertAcronymFunction().apply(text);
-        }
-        else if ("expand".equalsIgnoreCase(action)) {
-            return new ExpandAcronymFunction().apply(text);
+            transformer = new CapitalizeDecorator(transformer);
+        } else if ("number2words".equalsIgnoreCase(action)) {
+            transformer = new NumberToWordsDecorator(transformer);
+        } else if ("acronym".equalsIgnoreCase(action)) {
+            transformer = new ConvertAcronymDecorator(transformer);
+        } else if ("expand".equalsIgnoreCase(action)) {
+            transformer = new ExpandAcronymDecorator(transformer);
         } else if ("latex".equalsIgnoreCase(action)) {
-            return new LatexFunction().apply(text);
-        }
-        else if ("dedup".equalsIgnoreCase(action)) {
-            return new DeduplicateFunction().apply(text);
+            transformer = new LatexDecorator(transformer);
+        } else if ("dedup".equalsIgnoreCase(action)) {
+            transformer = new DeduplicateDecorator(transformer);
         }
 
-        return text;
+        return transformer.apply(text);
+    }
+
+    @GetMapping("/chain")
+    public String transformChain(
+            @RequestParam String text,
+            @RequestParam String[] actions) {
+
+        TextFunction transformer = new BaseTextFunction();
+
+        for (String action : actions) {
+            if ("lower".equalsIgnoreCase(action)) {
+                transformer = new LowerCaseDecorator(transformer);
+            } else if ("upper".equalsIgnoreCase(action)) {
+                transformer = new UpperCaseDecorator(transformer);
+            } else if ("reverse".equalsIgnoreCase(action)) {
+                transformer = new ReverseDecorator(transformer);
+            } else if ("capitalize".equalsIgnoreCase(action)) {
+                transformer = new CapitalizeDecorator(transformer);
+            } else if ("number2words".equalsIgnoreCase(action)) {
+                transformer = new NumberToWordsDecorator(transformer);
+            } else if ("acronym".equalsIgnoreCase(action)) {
+                transformer = new ConvertAcronymDecorator(transformer);
+            } else if ("expand".equalsIgnoreCase(action)) {
+                transformer = new ExpandAcronymDecorator(transformer);
+            } else if ("latex".equalsIgnoreCase(action)) {
+                transformer = new LatexDecorator(transformer);
+            } else if ("dedup".equalsIgnoreCase(action)) {
+                transformer = new DeduplicateDecorator(transformer);
+            }
+        }
+
+        return transformer.apply(text);
     }
 }

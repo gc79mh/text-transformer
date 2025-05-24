@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ConvertAcronymFunction implements TextFunction {
+public class ConvertAcronymDecorator extends TextFunctionDecorator {
 
     private static final Map<Pattern, String> ACRONYMS = new LinkedHashMap<>();
     static {
@@ -25,12 +25,17 @@ public class ConvertAcronymFunction implements TextFunction {
         ACRONYMS.put(Pattern.compile("\\bdoctor\\b", Pattern.CASE_INSENSITIVE), "dr");
     }
 
+    public ConvertAcronymDecorator(TextFunction textFunction) {
+        super(textFunction);
+    }
+
     @Override
     public String apply(String text) {
-        if (text == null || text.isEmpty()) {
-            return text;
+        String input = wrappedFunction.apply(text);
+        if (input == null || input.isEmpty()) {
+            return input;
         }
-        String result = text;
+        String result = input;
         for (Map.Entry<Pattern, String> entry : ACRONYMS.entrySet()) {
             Matcher m = entry.getKey().matcher(result);
             result = m.replaceAll(entry.getValue());

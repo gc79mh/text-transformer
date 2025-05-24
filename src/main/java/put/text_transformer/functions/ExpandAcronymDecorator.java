@@ -4,7 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-public class ExpandAcronymFunction implements TextFunction {
+public class ExpandAcronymDecorator extends TextFunctionDecorator {
 
     private static final Map<Pattern, String> EXPANSIONS = new LinkedHashMap<>();
     static {
@@ -24,13 +24,18 @@ public class ExpandAcronymFunction implements TextFunction {
         EXPANSIONS.put(Pattern.compile("(?i)\\baka\\b"), "also known as");
     }
 
+    public ExpandAcronymDecorator(TextFunction textFunction) {
+        super(textFunction);
+    }
+
     @Override
     public String apply(String text) {
-        if (text == null || text.isEmpty()) {
-            return text;
+        String input = wrappedFunction.apply(text);
+        if (input == null || input.isEmpty()) {
+            return input;
         }
 
-        String result = text;
+        String result = input;
         for (Map.Entry<Pattern, String> e : EXPANSIONS.entrySet()) {
             result = e.getKey()
                     .matcher(result)

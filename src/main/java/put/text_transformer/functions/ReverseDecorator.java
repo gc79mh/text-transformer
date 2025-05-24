@@ -1,20 +1,24 @@
 package put.text_transformer.functions;
 
-public class ReverseFunction implements TextFunction {
+public class ReverseDecorator extends TextFunctionDecorator {
+    public ReverseDecorator(TextFunction textFunction) {
+        super(textFunction);
+    }
 
     @Override
     public String apply(String text) {
-        if (text == null || text.isEmpty()) return text;
+        String input = wrappedFunction.apply(text);
+        if (input == null || input.isEmpty()) return input;
 
-        int len = text.length();
+        int len = input.length();
         boolean[] isUpper = new boolean[len];
         for (int i = 0; i < len; i++) {
-            isUpper[i] = Character.isUpperCase(text.charAt(i));
+            isUpper[i] = Character.isUpperCase(input.charAt(i));
         }
 
         StringBuilder reversed = new StringBuilder();
         for (int i = len - 1; i >= 0; i--) {
-            reversed.append(Character.toLowerCase(text.charAt(i)));
+            reversed.append(Character.toLowerCase(input.charAt(i)));
         }
 
         StringBuilder result = new StringBuilder();

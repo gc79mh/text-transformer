@@ -3,13 +3,19 @@ package put.text_transformer.functions;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
-public class NumberToWordsFunction implements TextFunction {
+public class NumberToWordsDecorator extends TextFunctionDecorator {
     private static final Pattern NUMBER_PATTERN = Pattern.compile("\\b(\\d+)(?:\\.(\\d+))?\\b");
+
+    public NumberToWordsDecorator(TextFunction textFunction) {
+        super(textFunction);
+    }
 
     @Override
     public String apply(String text) {
-        Matcher matcher = NUMBER_PATTERN.matcher(text);
+        String input = wrappedFunction.apply(text);
+        if (input == null || input.isEmpty()) return input;
+
+        Matcher matcher = NUMBER_PATTERN.matcher(input);
         StringBuffer sb = new StringBuffer();
 
         while (matcher.find()) {
