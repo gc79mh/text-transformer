@@ -8,65 +8,35 @@ import put.text_transformer.functions.*;
 public class TransformController {
 
     @GetMapping
-    public String transform(
+    public TransformResponse transformChain(
             @RequestParam String text,
-            @RequestParam String action) {
-
-        // Start with base component
-        TextFunction transformer = new BaseTextFunction();
-
-        if ("lower".equalsIgnoreCase(action)) {
-            transformer = new LowerCaseDecorator(transformer);
-        } else if ("upper".equalsIgnoreCase(action)) {
-            transformer = new UpperCaseDecorator(transformer);
-        } else if ("reverse".equalsIgnoreCase(action)) {
-            transformer = new ReverseDecorator(transformer);
-        } else if ("capitalize".equalsIgnoreCase(action)) {
-            transformer = new CapitalizeDecorator(transformer);
-        } else if ("number2words".equalsIgnoreCase(action)) {
-            transformer = new NumberToWordsDecorator(transformer);
-        } else if ("acronym".equalsIgnoreCase(action)) {
-            transformer = new ConvertAcronymDecorator(transformer);
-        } else if ("expand".equalsIgnoreCase(action)) {
-            transformer = new ExpandAcronymDecorator(transformer);
-        } else if ("latex".equalsIgnoreCase(action)) {
-            transformer = new LatexDecorator(transformer);
-        } else if ("dedup".equalsIgnoreCase(action)) {
-            transformer = new DeduplicateDecorator(transformer);
-        }
-
-        return transformer.apply(text);
-    }
-
-    @GetMapping("/chain")
-    public String transformChain(
-            @RequestParam String text,
-            @RequestParam String[] actions) {
+            @RequestParam String[] action) {
 
         TextFunction transformer = new BaseTextFunction();
 
-        for (String action : actions) {
-            if ("lower".equalsIgnoreCase(action)) {
+        for (String single_action : action) {
+            if ("lower".equalsIgnoreCase(single_action)) {
                 transformer = new LowerCaseDecorator(transformer);
-            } else if ("upper".equalsIgnoreCase(action)) {
+            } else if ("upper".equalsIgnoreCase(single_action)) {
                 transformer = new UpperCaseDecorator(transformer);
-            } else if ("reverse".equalsIgnoreCase(action)) {
+            } else if ("reverse".equalsIgnoreCase(single_action)) {
                 transformer = new ReverseDecorator(transformer);
-            } else if ("capitalize".equalsIgnoreCase(action)) {
+            } else if ("capitalize".equalsIgnoreCase(single_action)) {
                 transformer = new CapitalizeDecorator(transformer);
-            } else if ("number2words".equalsIgnoreCase(action)) {
+            } else if ("number2words".equalsIgnoreCase(single_action)) {
                 transformer = new NumberToWordsDecorator(transformer);
-            } else if ("acronym".equalsIgnoreCase(action)) {
+            } else if ("acronym".equalsIgnoreCase(single_action)) {
                 transformer = new ConvertAcronymDecorator(transformer);
-            } else if ("expand".equalsIgnoreCase(action)) {
+            } else if ("expand".equalsIgnoreCase(single_action)) {
                 transformer = new ExpandAcronymDecorator(transformer);
-            } else if ("latex".equalsIgnoreCase(action)) {
+            } else if ("latex".equalsIgnoreCase(single_action)) {
                 transformer = new LatexDecorator(transformer);
-            } else if ("dedup".equalsIgnoreCase(action)) {
+            } else if ("dedup".equalsIgnoreCase(single_action)) {
                 transformer = new DeduplicateDecorator(transformer);
             }
         }
 
-        return transformer.apply(text);
+        String result = transformer.apply(text);
+        return new TransformResponse(text, action, result);
     }
 }
