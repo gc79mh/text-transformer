@@ -2,41 +2,33 @@ package put.text_transformer;
 
 import org.springframework.web.bind.annotation.*;
 import put.text_transformer.functions.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/transform")
 public class TransformController {
 
     @GetMapping
-    public TransformResponse transformChain(
+    public TransformResponse transformGet(
             @RequestParam String text,
-            @RequestParam String[] action) {
-
-        TextFunction transformer = new BaseTextFunction();
-
-        for (String single_action : action) {
-            if ("lower".equalsIgnoreCase(single_action)) {
-                transformer = new LowerCaseDecorator(transformer);
-            } else if ("upper".equalsIgnoreCase(single_action)) {
-                transformer = new UpperCaseDecorator(transformer);
-            } else if ("reverse".equalsIgnoreCase(single_action)) {
-                transformer = new ReverseDecorator(transformer);
-            } else if ("capitalize".equalsIgnoreCase(single_action)) {
-                transformer = new CapitalizeDecorator(transformer);
-            } else if ("number2words".equalsIgnoreCase(single_action)) {
-                transformer = new NumberToWordsDecorator(transformer);
-            } else if ("acronym".equalsIgnoreCase(single_action)) {
-                transformer = new ConvertAcronymDecorator(transformer);
-            } else if ("expand".equalsIgnoreCase(single_action)) {
-                transformer = new ExpandAcronymDecorator(transformer);
-            } else if ("latex".equalsIgnoreCase(single_action)) {
-                transformer = new LatexDecorator(transformer);
-            } else if ("dedup".equalsIgnoreCase(single_action)) {
-                transformer = new DeduplicateDecorator(transformer);
-            }
-        }
+            @RequestParam List<String> actions) {
+    
+        TextFunction transformer = DecoratorRegistry.applyDecorators(new BaseTextFunction(), actions);
 
         String result = transformer.apply(text);
-        return new TransformResponse(text, action, result);
+        return new TransformResponse(text, actions, result);
     }
+
+    @PostMapping
+    public TransformResponse transformPost(@RequestBody TransformRequest request) {
+        String text = request.getText();
+        List<String> actions = request.getActions();
+
+        
+        TextFunction transformer = DecoratorRegistry.applyDecorators(new BaseTextFunction(), actions);
+
+        String result = transformer.apply(text);
+        return new TransformResponse(text, actions, result);
+    }
+
 }
