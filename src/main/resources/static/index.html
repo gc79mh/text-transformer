@@ -5,7 +5,13 @@
 </head>
 <body>
     <h1>Welcome to the Text Transformer API</h1>
-    <p>Use <code>/transform?text=YOUR_TEXT&action=YOUR_ACTION_1&action=YOUR_ACTION_2</code> to apply a transformation.</p>
+    <p>To apply a transformation you can either do a:</p>
+    <p>GET Request: </p>
+    <p><code>/transform?text=YOUR_TEXT&actions=YOUR_ACTION_1&actions=YOUR_ACTION_2</code></p>
+    <p>POST Request with payload: </p>
+    <p><code>{ "text": "YOUR_TEXT", "actions": [ "YOUR_ACTION_1", "YOUR_ACTION_2" ] }</code></p>
+    <p>Either way output will be in format: </p>
+    <p><code>{ "text": "YOUR_TEXT", "actions": [ "YOUR_ACTION_1", "YOUR_ACTION_2" ], "result": "YOUR_TEXT_AFTER_TRANSFORMATION" }</code></p>
     <h2>Availabe actions:</h2>
     <p>lower - puts all letters to lowercase</p>
     <p>upper - puts all letters to uppercase</p>
