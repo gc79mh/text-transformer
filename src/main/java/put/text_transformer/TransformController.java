@@ -24,11 +24,10 @@ public class TransformController {
         String text = request.getText();
         List<String> actions = request.getActions();
 
-        
         TextFunction transformer = DecoratorRegistry.applyDecorators(new BaseTextFunction(), actions);
 
         String result = transformer.apply(text);
         return new TransformResponse(text, actions, result);
     }
-
+    
 }
