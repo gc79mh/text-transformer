@@ -2,6 +2,9 @@
 
 ![Build](https://github.com/gc79mh/text-transformer/actions/workflows/ci.yml/badge.svg?branch=main)
 
+### 📦 Download
+[Download the latest release](https://github.com/your-org/your-repo/releases/latest)
+
 ## Start
 ### Linux
     ./mvnw spring-boot:run 
