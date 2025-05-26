@@ -1,4 +1,4 @@
-name: Release Latest JAR
+name: Generate JavaDoc
 
 on:
   push:
@@ -23,15 +23,13 @@ jobs:
         java-version: '17'
         cache: maven
 
-    - name: Build and Package
-      run: mvn clean package --batch-mode
+    - name: Generate JavaDoc
+      run: mvn javadoc:javadoc
 
-    - name: Create GitHub Release
-      uses: softprops/action-gh-release@v2
+    - name: Deploy JavaDoc to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
       with:
-        tag_name: latest
-        name: Latest Build
-        prerelease: false
-        files: target/*.jar
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./target/site/apidocs
+        publish_branch: gh-pages
+        force_orphan: true
