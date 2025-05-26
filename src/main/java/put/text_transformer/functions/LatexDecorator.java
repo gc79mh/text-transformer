@@ -8,12 +8,14 @@ import java.util.regex.Pattern;
 /**
  * A decorator class that escapes special LaTeX characters in the input text.
  *
- * This class is used to ensure that text containing characters that are reserved
- * or have special meaning in LaTeX (such as $, %, &, etc.) are properly escaped,
- * so that the resulting text can be safely embedded in LaTeX documents.
+ * <p>This class is used to ensure that text containing characters that are reserved
+ * or have special meaning in LaTeX (such as <code>$</code>, <code>&#37;</code>, <code>&amp;</code>, etc.)
+ * are properly escaped, so that the resulting text can be safely embedded in LaTeX documents.</p>
  *
- * It follows the Decorator design pattern by extending the functionality of a base {@link TextFunction}.
+ * <p>It follows the Decorator design pattern by extending the functionality of a base
+ * {@link TextFunction}.</p>
  */
+
 public class LatexDecorator extends TextFunctionDecorator {
 
     /**
