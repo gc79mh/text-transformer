@@ -9,6 +9,11 @@
     ./mvnw.cmd spring-boot:run 
 
 ## Command to use POST
+### Linux
     curl -s -X POST http://localhost:8080/transform \
     -H "Content-Type: application/json" \
     -d '{"text": "Hello World", "actions": ["lower", "reverse"]}'
+### Windows
+    curl -X POST http://localhost:8080/transform \
+    -H "Content-Type: application/json" \
+    -d "{\"text\": \"Hello World\", \"actions\": [\"lower\", \"reverse\"]}"
