@@ -1,6 +1,6 @@
 # Text Trannsformer
 
-![Build](https://github.com/gc79mh/text-transformer/actions/workflows/ci.yml/badge.svg?branch=main)
+![Build](https://github.com/gc79mh/text-transformer/actions/workflows/ci.yml/badge.svg?branch=main) ![Package](https://github.com/gc79mh/text-transformer/actions/workflows/release.yml/badge.svg?branch=main) ![javadoc](https://github.com/gc79mh/text-transformer/actions/workflows/javadoc.yml/badge.svg?branch=main)
 
 ### 📦 Download
 [Download the latest release](https://github.com/gc79mh/text-transformer/releases/tag/latest)
