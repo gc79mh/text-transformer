@@ -51,9 +51,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<configuration>
-        			<stylesheetfile>src/main/resources/dracula-javadoc8.css</stylesheetfile>
-      			</configuration>
 			</plugin>
 		</plugins>
 	</build>
