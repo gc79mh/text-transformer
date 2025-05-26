@@ -5,6 +5,9 @@
 ### 📦 Download
 [Download the latest release](https://github.com/gc79mh/text-transformer/releases/tag/latest)
 
+### 📚 JavaDoc
+[View API Documentation](https://gc79mh.github.io/text-transformer/)
+
 ## Start
 ### Linux
     ./mvnw spring-boot:run 
