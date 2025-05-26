@@ -5,9 +5,22 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * A decorator class that converts commonly used phrases in the input text
+ * to their corresponding acronyms or abbreviations.
+ *
+ * This class uses regular expressions to identify phrases and replace them
+ * with standard abbreviations. It follows the Decorator design pattern to
+ * extend the functionality of a base {@link TextFunction}.
+ */
 public class ConvertAcronymDecorator extends TextFunctionDecorator {
 
+    /**
+    * A map of patterns to their corresponding acronym replacements.
+    * LinkedHashMap preserves insertion order, which ensures consistent replacements.
+    */
     private static final Map<Pattern, String> ACRONYMS = new LinkedHashMap<>();
+
     static {
         ACRONYMS.put(Pattern.compile("\\bfor example\\b", Pattern.CASE_INSENSITIVE), "e.g.");
         ACRONYMS.put(Pattern.compile("\\bamong others\\b", Pattern.CASE_INSENSITIVE), "i.a.");
@@ -25,16 +38,29 @@ public class ConvertAcronymDecorator extends TextFunctionDecorator {
         ACRONYMS.put(Pattern.compile("\\bdoctor\\b", Pattern.CASE_INSENSITIVE), "dr");
     }
 
+    /**
+     * Constructs a ConvertAcronymDecorator that wraps a given TextFunction.
+     *
+     * @param textFunction the TextFunction to be decorated
+     */
     public ConvertAcronymDecorator(TextFunction textFunction) {
         super(textFunction);
     }
 
+    /**
+     * Applies the decorated TextFunction and replaces certain phrases in the
+     * resulting text with their acronym equivalents.
+     *
+     * @param text the input text
+     * @return the text with specified phrases converted to acronyms
+     */
     @Override
     public String apply(String text) {
         String input = wrappedFunction.apply(text);
         if (input == null || input.isEmpty()) {
             return input;
         }
+
         String result = input;
         for (Map.Entry<Pattern, String> entry : ACRONYMS.entrySet()) {
             Matcher m = entry.getKey().matcher(result);
