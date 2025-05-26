@@ -28,7 +28,7 @@ public class TransformController {
             @RequestParam List<String> actions) {
 
         logger.info("Received GET request with text='{}' and actions={}", text, actions);
-        logger.debug("Applying transformations using DecoratorRegistry")
+        logger.debug("Applying transformations using DecoratorRegistry");
         TextFunction transformer = DecoratorRegistry.applyDecorators(new BaseTextFunction(), actions);
 
         String result = transformer.apply(text);
@@ -54,7 +54,7 @@ public class TransformController {
 
         String result = transformer.apply(text);
         logger.info("Transformation result='{}'", result);
-        
+
         return new TransformResponse(text, actions, result);
     }
     
