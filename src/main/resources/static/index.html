@@ -7,7 +7,7 @@
 <body>
     
     <header>
-    Welcome to the Text Transformer API
+        Welcome to the Text Transformer API
     </header>
 
     <main>
@@ -21,7 +21,7 @@
         <pre>{
     "text": "YOUR_TEXT",
     "actions": [ "YOUR_ACTION_1", "YOUR_ACTION_2" ]
-    }</pre>
+}</pre>
     </section>
 
     <section>
@@ -30,7 +30,7 @@
     "text": "YOUR_TEXT",
     "actions": [ "YOUR_ACTION_1", "YOUR_ACTION_2" ],
     "result": "YOUR_TEXT_AFTER_TRANSFORMATION"
-    }</pre>
+ }</pre>
     </section>
 
     <section>
@@ -40,11 +40,36 @@
         <li><strong>upper</strong> – Puts all letters to uppercase</li>
         <li><strong>reverse</strong> – Reverses the text</li>
         <li><strong>capitalize</strong> – Capitalizes each word</li>
-        <li><strong>number2words</strong> – Converts numbers to words</li>
-        <li><strong>acronym</strong> – Makes an acronym from the input</li>
-        <li><strong>expand</strong> – Expands contractions (e.g., don't → do not)</li>
-        <li><strong>latex</strong> – Converts math to LaTeX</li>
-        <li><strong>dedup</strong> – Removes duplicate words</li>
+        <li><strong>number2words</strong> – Converts integers in range [0, 10000] to words</li>
+        <li>
+            <strong>acronym</strong> – Makes an acronym from the input <br>
+            <em>Supported cases:</em>
+            <ul>
+                <pre>for example → e.g. </pre>
+                <pre>among others → i.a. </pre>
+                <pre>and so on → aso </pre>
+            </ul>
+        </li>
+        <li>
+            <strong>expand</strong> – Expand known acronyms to full strings <br>
+            <em>Supported cases:</em>
+            <ul>
+                <pre>prof. → professor</pre>
+                <pre>dr → doctor</pre>
+                <pre>e.g. → for example</pre>
+                <pre>aso → and so on</pre>
+            </ul>
+        </li>
+        <li>
+            <strong>latex</strong> – Converts text to LaTeX supported format <br>
+            <em>Supported cases:</em>
+            <ul>
+                <pre>& → \&</pre>
+                <pre>$ → \$</pre>
+            </ul>
+        </li>
+        <li><strong>dedup</strong> – Removes repetitive words</li>
+
         </ul>
     </section>
     </main>
