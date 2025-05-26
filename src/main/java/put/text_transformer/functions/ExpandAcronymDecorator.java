@@ -41,7 +41,6 @@ public class ExpandAcronymDecorator extends TextFunctionDecorator {
                         String[] words = expansion.split(" ");
 
                         if (acro.contains(".")) {
-                            // Dot-based: match casing letter before each dot
                             String[] letters = acro.split("\\.");
                             StringBuilder sb = new StringBuilder();
                             for (int i = 0; i < words.length && i < letters.length; i++) {
@@ -54,7 +53,6 @@ public class ExpandAcronymDecorator extends TextFunctionDecorator {
                             }
                             return sb.toString().trim();
                         } else {
-                            // No-dot acronym: one letter controls each word
                             StringBuilder sb = new StringBuilder();
                             for (int i = 0; i < words.length; i++) {
                                 String word = words[i];
