@@ -36,27 +36,32 @@ public class ReverseDecorator extends TextFunctionDecorator {
         String input = wrappedFunction.apply(text);
         if (input == null || input.isEmpty()) return input;
 
-        int len = input.length();
-        boolean[] isUpper = new boolean[len];
-
-        // Store uppercase information of original string
-        for (int i = 0; i < len; i++) {
-            isUpper[i] = Character.isUpperCase(input.charAt(i));
+        java.util.List<Boolean> isUpperList = new java.util.ArrayList<>();
+        for (char c : input.toCharArray()) {
+            if (c != ' ') {
+                isUpperList.add(Character.isUpperCase(c));
+            }
         }
 
-        // Reverse the string and lowercase all characters
         StringBuilder reversed = new StringBuilder();
-        for (int i = len - 1; i >= 0; i--) {
+        for (int i = input.length() - 1; i >= 0; i--) {
             reversed.append(Character.toLowerCase(input.charAt(i)));
         }
 
-        // Restore original case pattern at original indices
         StringBuilder result = new StringBuilder();
-        for (int i = 0; i < len; i++) {
+        int caseIndex = 0;
+        for (int i = 0; i < reversed.length(); i++) {
             char c = reversed.charAt(i);
-            result.append(isUpper[i] ? Character.toUpperCase(c) : c);
+            if (c != ' ') {
+                if (isUpperList.get(caseIndex)) {
+                    c = Character.toUpperCase(c);
+                }
+                caseIndex++;
+            }
+            result.append(c);
         }
 
         return result.toString();
     }
+
 }
