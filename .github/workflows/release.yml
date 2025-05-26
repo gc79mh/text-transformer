@@ -1,4 +1,4 @@
-name: Release Latest JAR
+name: Package
 
 on:
   push:

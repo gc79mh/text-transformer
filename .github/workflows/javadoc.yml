@@ -1,4 +1,4 @@
-name: Generate JavaDoc
+name: Documentation
 
 on:
   push:
