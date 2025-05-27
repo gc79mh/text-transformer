@@ -4,6 +4,12 @@
 
 Welcome to the **Text Transformer API**
 
+## 📦 Download
+[Download the latest release](https://github.com/gc79mh/text-transformer/releases/tag/latest)
+
+## 📚 JavaDoc
+[View API Documentation](https://gc79mh.github.io/text-transformer/)
+
 ## 📘 Usage Instructions
 
 To apply a transformation you can either do a:
@@ -64,12 +70,6 @@ To apply a transformation you can either do a:
   $ → \$
   ```
 - **dedup** – Removes repetitive words  
-
-### 📦 Download
-[Download the latest release](https://github.com/gc79mh/text-transformer/releases/tag/latest)
-
-### 📚 JavaDoc
-[View API Documentation](https://gc79mh.github.io/text-transformer/)
 
 ## Debug
 ### Linux
