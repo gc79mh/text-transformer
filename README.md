@@ -4,6 +4,8 @@
 
 Welcome to the **Text Transformer API**
 
+For people working with text data, our Text Transformer application will allow you to transform text data (e.g. change case, eliminate duplicates, etc.). The application will be available via GUI as well as remote API, thanks to which it will be possible to integrate it with existing tools.
+
 ## 📦 Download
 [Download the latest release](https://github.com/gc79mh/text-transformer/releases/tag/latest)
 
