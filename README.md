@@ -65,15 +65,13 @@ To apply a transformation you can either do a:
   ```
 - **dedup** – Removes repetitive words  
 
----
-
 ### 📦 Download
 [Download the latest release](https://github.com/gc79mh/text-transformer/releases/tag/latest)
 
 ### 📚 JavaDoc
 [View API Documentation](https://gc79mh.github.io/text-transformer/)
 
-## Start
+## Debug
 ### Linux
     ./mvnw spring-boot:run 
 ### Windows
@@ -88,5 +86,7 @@ To apply a transformation you can either do a:
     curl -X POST http://localhost:8080/transform \
     -H "Content-Type: application/json" \
     -d "{\"text\": \"Hello World\", \"actions\": [\"lower\", \"reverse\"]}"
+
+---
 
 © 2025 Text Transformer API
