@@ -2,71 +2,60 @@ package put.text_transformer;
 
 import org.springframework.web.bind.annotation.*;
 import put.text_transformer.functions.*;
+import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+/**
+ * REST controller providing endpoints for text transformation.
+ */
 @RestController
 @RequestMapping("/transform")
 public class TransformController {
 
+    private static final Logger logger = LoggerFactory.getLogger(TransformController.class);
+
+    /**
+     * Transforms the given text using the specified actions (GET request).
+     *
+     * @param text original input text.
+     * @param actions list of transformation actions to apply.
+     * @return the transformation response containing original text, actions, and result.
+     */
     @GetMapping
-    public String transform(
+    public TransformResponse transformGet(
             @RequestParam String text,
-            @RequestParam String action) {
+            @RequestParam List<String> actions) {
 
-        // Start with base component
-        TextFunction transformer = new BaseTextFunction();
+        logger.info("Received GET request with text='{}' and actions={}", text, actions);
+        logger.debug("Applying transformations using DecoratorRegistry");
+        TextFunction transformer = DecoratorRegistry.applyDecorators(new BaseTextFunction(), actions);
 
-        if ("lower".equalsIgnoreCase(action)) {
-            transformer = new LowerCaseDecorator(transformer);
-        } else if ("upper".equalsIgnoreCase(action)) {
-            transformer = new UpperCaseDecorator(transformer);
-        } else if ("reverse".equalsIgnoreCase(action)) {
-            transformer = new ReverseDecorator(transformer);
-        } else if ("capitalize".equalsIgnoreCase(action)) {
-            transformer = new CapitalizeDecorator(transformer);
-        } else if ("number2words".equalsIgnoreCase(action)) {
-            transformer = new NumberToWordsDecorator(transformer);
-        } else if ("acronym".equalsIgnoreCase(action)) {
-            transformer = new ConvertAcronymDecorator(transformer);
-        } else if ("expand".equalsIgnoreCase(action)) {
-            transformer = new ExpandAcronymDecorator(transformer);
-        } else if ("latex".equalsIgnoreCase(action)) {
-            transformer = new LatexDecorator(transformer);
-        } else if ("dedup".equalsIgnoreCase(action)) {
-            transformer = new DeduplicateDecorator(transformer);
-        }
+        String result = transformer.apply(text);
+        logger.info("Transformation result='{}'", result);
 
-        return transformer.apply(text);
+        return new TransformResponse(text, actions, result);
     }
 
-    @GetMapping("/chain")
-    public String transformChain(
-            @RequestParam String text,
-            @RequestParam String[] actions) {
+    /**
+     * Transforms text based on the POSTed request body.
+     *
+     * @param request the transform request containing text and actions.
+     * @return the transformation response.
+     */
+    @PostMapping
+    public TransformResponse transformPost(@RequestBody TransformRequest request) {
+        String text = request.getText();
+        List<String> actions = request.getActions();
 
-        TextFunction transformer = new BaseTextFunction();
+        logger.info("Received POST request with text='{}' and actions={}", text, actions);
+        logger.debug("Applying transformations using DecoratorRegistry");
+        TextFunction transformer = DecoratorRegistry.applyDecorators(new BaseTextFunction(), actions);
 
-        for (String action : actions) {
-            if ("lower".equalsIgnoreCase(action)) {
-                transformer = new LowerCaseDecorator(transformer);
-            } else if ("upper".equalsIgnoreCase(action)) {
-                transformer = new UpperCaseDecorator(transformer);
-            } else if ("reverse".equalsIgnoreCase(action)) {
-                transformer = new ReverseDecorator(transformer);
-            } else if ("capitalize".equalsIgnoreCase(action)) {
-                transformer = new CapitalizeDecorator(transformer);
-            } else if ("number2words".equalsIgnoreCase(action)) {
-                transformer = new NumberToWordsDecorator(transformer);
-            } else if ("acronym".equalsIgnoreCase(action)) {
-                transformer = new ConvertAcronymDecorator(transformer);
-            } else if ("expand".equalsIgnoreCase(action)) {
-                transformer = new ExpandAcronymDecorator(transformer);
-            } else if ("latex".equalsIgnoreCase(action)) {
-                transformer = new LatexDecorator(transformer);
-            } else if ("dedup".equalsIgnoreCase(action)) {
-                transformer = new DeduplicateDecorator(transformer);
-            }
-        }
+        String result = transformer.apply(text);
+        logger.info("Transformation result='{}'", result);
 
-        return transformer.apply(text);
+        return new TransformResponse(text, actions, result);
     }
+    
 }
