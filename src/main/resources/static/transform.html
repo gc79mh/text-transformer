@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="style.css">
+    <title>Text Transformer</title>
+</head>
+<body>
+    
+    <header>
+        <a href="/" style="color: #FFFFFF; text-decoration: none;">Text Transformer</a>
+    </header>
+
+    <main>
+    
+    <section>
+        <h2>Try the Text Transformer</h2>
+        <label for="inputText">Enter text:</label><br>
+        <textarea id="inputText" rows="3" cols="50"></textarea><br><br>
+
+        <label>Select actions:</label><br>
+        <input type="checkbox" name="action" value="number2words"> number2words<br>
+        <input type="checkbox" name="action" value="acronym"> acronym<br>
+        <input type="checkbox" name="action" value="expand"> expand<br>
+        <input type="checkbox" name="action" value="latex"> latex<br>
+        <input type="checkbox" name="action" value="dedup"> dedup<br>
+        <input type="checkbox" name="action" value="lower"> lower<br>
+        <input type="checkbox" name="action" value="upper"> upper<br>
+        <input type="checkbox" name="action" value="capitalize"> capitalize<br>
+        <input type="checkbox" name="action" value="reverse"> reverse<br>
+        <br>
+        <button onclick="transformText()">Transform</button>
+        <br><br>
+        <div id="result"></div>
+    </section>
+
+    <script>
+        function transformText() {
+            const text = document.getElementById('inputText').value;
+            const checkboxes = document.querySelectorAll('input[name="action"]:checked');
+            const actions = Array.from(checkboxes).map(cb => cb.value);
+
+            fetch('/transform', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text, actions })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerHTML =
+                    `<b>Result:</b> <pre>${data.result}</pre>`;
+            })
+            .catch(err => {
+                document.getElementById('result').innerHTML =
+                    `<span style="color:red;">Error: ${err}</span>`;
+            });
+        }
+    </script>
+
+    </main>
+
+    <footer>
+    &copy; 2025 Text Transformer API
+    </footer>
+
+</body>
+</html>
+
