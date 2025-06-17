@@ -8,11 +8,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.InjectMocks;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.http.MediaType;
 import put.text_transformer.functions.*;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Function;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
